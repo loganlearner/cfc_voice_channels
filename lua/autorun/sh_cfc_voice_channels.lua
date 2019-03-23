@@ -1,4 +1,3 @@
-
 cfc_voice = cfc_voice or {}
 
 if SERVER then

@@ -1,4 +1,3 @@
-
 local Panel = {}
 
 local function addChannels(parent, passwordProtected, name, ownerName, id)
