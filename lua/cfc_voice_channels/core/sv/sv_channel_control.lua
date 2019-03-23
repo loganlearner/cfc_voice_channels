@@ -43,3 +43,11 @@ function cfc_voice:isUniqueChannelName(name)
 
     return true
 end
+
+net.Receive("gimmeChannelsPls", function(len, ply)
+    if IsValid(ply) and ply:IsPlayer() then -- TODO: Add IsValidPly when cfc_lib is released
+        net.Start("okiHereYouGo")
+            net.WriteTable(cfc_voice.Channels)
+        net.Send(ply)
+    end
+end)

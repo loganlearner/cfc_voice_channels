@@ -25,3 +25,9 @@ function Panel:Init()
 end
 
 vgui.Register("cfc_voice_main_derma", Panel)
+
+net.Receive("okiHereYouGo", function(len)
+    local tbl = net.ReadTable()
+
+    cfc_voice.Channels = tbl
+end)
