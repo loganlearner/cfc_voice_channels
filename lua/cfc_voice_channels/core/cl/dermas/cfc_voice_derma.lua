@@ -17,7 +17,9 @@ function Panel:Init()
     self.List:AddColumn("Users")
     self.List:AddColumn("Locked")
 
-    self.List:AddLine("1", "#yeetus", "5", "true") -- TODO: actual list of channels =^)
+    for index, channel in pairs(cfc_voice.Channels) do
+        self.AddLine(tostring(index), "#"..channel.Name, tostring(table.Count(channel.Users)), tostring(channel.IsProtected))
+    end
 
     function self.List:DoDoubleClick(lineID, line)
         -- TODO: Open channel view
