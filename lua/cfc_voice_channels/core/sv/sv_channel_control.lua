@@ -9,7 +9,7 @@
 ]]
 
 local function hasPassword(str)
-    return str == ""
+    return not (str == "")
 end
 
 function cfc_voice:CreateChannel(caller, name, password)
