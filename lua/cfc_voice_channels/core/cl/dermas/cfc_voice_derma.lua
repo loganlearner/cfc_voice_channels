@@ -18,7 +18,7 @@ function Panel:Init()
     self.List:AddColumn("Users")
     self.List:AddColumn("Locked")
 
-    timer.Simple(1, function()
+    timer.Simple(0.1, function()
         for index, channel in pairs(cfc_voice.Channels) do
             self.List:AddLine(tostring(index), "#"..channel.Name, tostring(table.Count(channel.Users)), tostring(channel.IsProtected))
         end
