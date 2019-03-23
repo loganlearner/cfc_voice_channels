@@ -1,3 +1,6 @@
+util.AddNetworkString("gimmeChannelsPls")
+util.AddNetworkString("okiHereYouGo")
+
 cfc_voice.Channels = {}
 
 include("cfc_voice_channels/core/sv/sv_channel_control.lua")
