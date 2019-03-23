@@ -51,3 +51,10 @@ net.Receive("gimmeChannelsPls", function(len, ply)
         net.Send(ply)
     end
 end)
+
+net.Receive("iWannaMakeAChannel", function(len, ply)
+    local channelName = net.ReadString()
+    local channelPassword = net.ReadString()
+
+    cfc_voice:CreateChannel(ply, channelName, channelPassword)
+end)

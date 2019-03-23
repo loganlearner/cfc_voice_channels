@@ -1,5 +1,6 @@
 util.AddNetworkString("gimmeChannelsPls")
 util.AddNetworkString("okiHereYouGo")
+util.AddNetworkString("iWannaMakeAChannel")
 
 cfc_voice.Channels = {}
 
