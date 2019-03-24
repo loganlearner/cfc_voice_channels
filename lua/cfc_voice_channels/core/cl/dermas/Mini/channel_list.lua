@@ -20,7 +20,13 @@ function Panel:Init()
 
     timer.Simple(0.1, function()
         for index, channel in pairs(cfc_voice.Channels) do
-            self.List:AddLine(tostring(index), channel.OwnerName, channel.Name, tostring(table.Count(channel.Users)), tostring(channel.IsProtected))
+            local i = index
+            local ownerName = channel.OwnerName
+            local name = channel.Name
+            local userCount = tostring(table.Count(channel.Users))
+            local password = tostring(channel.IsProtected)
+            
+            self.List:AddLine(i, ownerName, name, userCount, password)
         end
     end)
 
