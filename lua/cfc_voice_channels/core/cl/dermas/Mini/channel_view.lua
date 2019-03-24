@@ -1,7 +1,7 @@
 local Panel = {}
 
 local function isConnected()
-    for _, ply in pairs(selectedChannel.Users) do
+    for _, ply in pairs(cfc_voice.selectedChannel.Users) do
         if LocalPlayer() == ply then
             return true
         end
