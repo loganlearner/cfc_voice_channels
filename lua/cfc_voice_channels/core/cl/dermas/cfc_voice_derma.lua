@@ -23,6 +23,14 @@ function Panel:Init()
 
     function self.List:DoDoubleClick(lineID, line)
         -- TODO: Open channel view
+        print("Double clicked!") -- debug
+    end
+
+    function self.List:OnRowRightClick(lineID, line)
+        -- TODO: right click stuff...
+        --  - Admin stuff
+        --  - User quick connecting.
+        print("Right clicked!") -- debug
     end
 end
 
