@@ -9,9 +9,9 @@ concommand.Add("cfc_open_voice_channels", function(ply, cmd, args)
 end)
 
 concommand.Add("cfc_create_voice_channel", function(ply, cmd, args)
-    if #args == 2 and isstring(args[1]) and isstring(args[2]) then
+    if isstring(args[1]) and args[1] != "" then
         local channelName = args[1]
-        local channelPassword = args[2]
+        local channelPassword = args[2] or ""
 
         net.Start("iWannaMakeAChannel")
             net.WriteString(channelName)

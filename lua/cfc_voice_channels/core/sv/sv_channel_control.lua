@@ -1,4 +1,6 @@
 --[[
+    -- Channel Structure --
+
     Channel
         password protected    | 
         password              |
@@ -19,7 +21,10 @@ function cfc_voice:CreateChannel(caller, name, password)
     local isPasswordProtected = hasPassword(password)
     local channelPassword = password
 
-    if not cfc_voice:isUniqueChannelName(channelName) then return end
+    if not cfc_voice:isUniqueChannelName(channelName) then
+        -- Error message here!
+        return 
+    end
 
     cfc_voice.Channels[table.Count(cfc_voice.Channels) + 1] = {
         ["Name"] = channelName,
@@ -31,7 +36,7 @@ function cfc_voice:CreateChannel(caller, name, password)
         ["Users"] = {}
     }
 
-    -- TODO: Notify player of successful creation of channel
+    -- TODO: Notify players of successful creation of channel
 end
 
 function cfc_voice:isUniqueChannelName(name)
