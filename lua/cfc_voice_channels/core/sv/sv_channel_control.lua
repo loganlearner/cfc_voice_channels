@@ -48,7 +48,7 @@ function cfc_voice:CreateChannel(caller, name, password)
         ["Password"] = channelPassword,
         ["IsProtected"] = isPasswordProtected,
         ["TimeOut"] = nil,
-        ["Users"] = {}
+        ["Users"] = {caller}
     }
 
     -- TODO: Notify players of successful creation of channel
