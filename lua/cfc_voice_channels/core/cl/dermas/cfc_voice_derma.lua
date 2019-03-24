@@ -1,9 +1,5 @@
 local Panel = {}
 
-local function addChannels(parent, passwordProtected, name, ownerName, id)
-
-end
-
 function Panel:Init()
     self.Main = vgui.Create("DFrame", Panel)
     self.Main:SetSize(300,500)
@@ -14,13 +10,14 @@ function Panel:Init()
     self.List:Dock(FILL)
     self.List:SetMultiSelect(false)
     self.List:AddColumn("Index")
+    self.List:AddColumn("Owner")
     self.List:AddColumn("Channel")
     self.List:AddColumn("Users")
     self.List:AddColumn("Locked")
 
     timer.Simple(0.1, function()
         for index, channel in pairs(cfc_voice.Channels) do
-            self.List:AddLine(tostring(index), channel.Name, tostring(table.Count(channel.Users)), tostring(channel.IsProtected))
+            self.List:AddLine(tostring(index), channel.OwnerName, channel.Name, tostring(table.Count(channel.Users)), tostring(channel.IsProtected))
         end
     end)
 

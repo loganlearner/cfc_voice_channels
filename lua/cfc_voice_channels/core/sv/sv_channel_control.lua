@@ -10,6 +10,16 @@
         timeout               | time it takes for a channel to time out
 ]]
 
+local function ownsChannel(ply)
+    for _, channel in pairs(cfc_voice.Channels) do
+        if channel.Owner == ply then
+            return true
+        end
+    end
+
+    return false
+end
+
 local function hasPassword(str)
     return not (str == "")
 end
@@ -20,6 +30,11 @@ function cfc_voice:CreateChannel(caller, name, password)
     local channelName = name
     local isPasswordProtected = hasPassword(password)
     local channelPassword = password
+
+    if ownsChannel(caller) then
+        -- Can only own one channel error
+        return
+    end
 
     if not cfc_voice:isUniqueChannelName(channelName) then
         -- Error message here!
