@@ -1,6 +1,6 @@
 -- includes go here /shrug
-connectedChannel = nil
-selectedChannel = nil
+cfc_voice.connectedChannel = nil
+cfc_voice.selectedChannel = nil
 
 include("cfc_voice_channels/core/cl/cl_channels.lua")
 

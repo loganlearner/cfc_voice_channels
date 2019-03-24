@@ -10,7 +10,7 @@ local function isConnected()
 end
 
 local function isOwner(ply)
-    return selectedChannel.Owner == ply
+    return cfc_voice.selectedChannel.Owner == ply
 end
 
 function Panel:Init()
@@ -24,11 +24,12 @@ function Panel:Init()
     self.List:Dock(FILL)
     self.List:SetMultiSelect(false)
     self.List:SetSortable(false)
-    self.List:AddColumn("")
-    self.List:AddColumn("Player")
+    self.List:AddColumn(""):SetWide(1)
+    self.List:AddColumn("Player"):SetWide(200)
+    self.List:AddColumn("Rank"):SetWide(50)
 
-    for _, ply in pairs(selectedChannel.Users) do
-        self.List:AddLine(isOwner(ply) and "L" or "", ply:Name())
+    for _, ply in pairs(cfc_voice.selectedChannel.Users) do
+        self.List:AddLine(isOwner(ply) and "L" or "", ply:Name(), team.GetName(ply:Team()))
     end
 
     self.SubPanel = vgui.Create("DPanel", self.MainPanel)
@@ -39,9 +40,9 @@ function Panel:Init()
     self.BackBut:SetText("< Back")
 
     self.BackBut.DoClick = function()
-        selectedChannel = nil
+        cfc_voice.selectedChannel = nil
         vgui.Create("channel_list", self:GetParent())
-        self:Remove()
+        self :Remove()
     end
 
     self.Connect = vgui.Create("DButton", self.SubPanel)

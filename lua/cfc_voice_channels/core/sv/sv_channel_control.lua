@@ -10,6 +10,11 @@
         timeout               | time it takes for a channel to time out
 ]]
 
+local function tooLong(name)
+    local maxLength = 15
+    return #name > maxLength
+end
+
 local function ownsChannel(ply)
     for _, channel in pairs(cfc_voice.Channels) do
         if channel.Owner == ply then
@@ -30,6 +35,11 @@ function cfc_voice:CreateChannel(caller, name, password)
     local channelName = name
     local isPasswordProtected = hasPassword(password)
     local channelPassword = password
+
+    if tooLong(name) then
+        -- Throw error here too
+        return
+    end
 
     if ownsChannel(caller) then
         -- Can only own one channel error
