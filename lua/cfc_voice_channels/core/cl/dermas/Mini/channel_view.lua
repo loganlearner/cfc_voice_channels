@@ -30,8 +30,21 @@ function Panel:Init()
         self.List:AddLine(isOwner(ply) and "L" or "", ply:Name())
     end
 
-    self.Connect = vgui.Create("DButton", self.MainPanel)
-    self.Connect:Dock(BOTTOM)
+    self.SubPanel = vgui.Create("DPanel", self.MainPanel)
+    self.SubPanel:Dock(BOTTOM)
+
+    self.BackBut = vgui.Create("DButton", self.SubPanel)
+    self.BackBut:Dock(LEFT)
+    self.BackBut:SetText("< Back")
+
+    self.BackBut.DoClick = function()
+        selectedChannel = nil
+        vgui.Create("channel_list", self:GetParent())
+        self:Remove()
+    end
+
+    self.Connect = vgui.Create("DButton", self.SubPanel)
+    self.Connect:Dock(RIGHT)
     self.Connect:SetText(isConnected() and "Disconnect" or "Connect")
 end
 
