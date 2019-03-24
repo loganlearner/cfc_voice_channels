@@ -5,6 +5,7 @@ function Panel:Init()
 
     self.MainPanel = vgui.Create("DPanel", self.Main)
     self.MainPanel:Dock(FILL)
+    self.MainPanel:SetBackgroundColor(Color(255, 255, 255, 0))
 
     self.List = vgui.Create("DListView", self.MainPanel)
     self.List:Dock(FILL)
@@ -26,9 +27,7 @@ function Panel:Init()
 
     function self.List:DoDoubleClick(lineID, line)
         -- TODO: Open channel view 
-        print("Double clicked!") -- debug
         selectedChannel = cfc_voice.Channels[lineID]
-        PrintTable(selectedChannel)
         vgui.Create("channel_view", self:GetParent())
         self:Remove()
     end

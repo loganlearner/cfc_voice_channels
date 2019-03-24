@@ -18,6 +18,7 @@ function Panel:Init()
 
     self.MainPanel = vgui.Create("DPanel", self.Main)
     self.MainPanel:Dock(FILL)
+    self.MainPanel:SetBackgroundColor(Color(255, 255, 255, 0))
 
     self.List = vgui.Create("DListView", self.MainPanel)
     self.List:Dock(FILL)
