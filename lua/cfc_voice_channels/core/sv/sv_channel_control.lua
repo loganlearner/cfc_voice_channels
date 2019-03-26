@@ -57,7 +57,7 @@ function cfc_voice:CreateChannel(caller, name, password)
 
     cfc_voice.Channels[table.Count(cfc_voice.Channels) + 1] = {
         ["Name"] = channelName,
-        ["TrimedName"] = string.lower(string.Trim(channelName)),
+        ["TrimmedName"] = string.lower(string.Trim(channelName)),
         ["Owner"] = caller,
         ["OwnerName"] = caller:Name(),
         ["Password"] = channelPassword,
@@ -71,7 +71,7 @@ end
 
 function cfc_voice:isUniqueChannelName(name)
     for _, channel in pairs(cfc_voice.Channels) do
-        if channel.TrimedName == string.lower(string.Trim(name)) then
+        if channel.TrimmedName == string.lower(string.Trim(name)) then
             return false
         end
     end
@@ -81,7 +81,7 @@ end
 
 function cfc_voice:getChannel(channelName)
     for _, channel in pairs(self.Channels) do
-        if channel.TrimedName == string.lower(string.Trim(channelName)) then
+        if channel.TrimmedName == string.lower(string.Trim(channelName)) then
             return channel
         end
     end
