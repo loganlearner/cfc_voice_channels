@@ -94,6 +94,8 @@ function cfc_voice:canJoinChannel(ply)
 end
 
 function cfc_voice:joinChannel(ply, channel)
+    -- TODO: Alert other members of channel that player has joined
+
     table.insert(channel.Users, ply)
 end
 
