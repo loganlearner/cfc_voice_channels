@@ -91,6 +91,10 @@ function cfc_voice:canJoinChannel(ply)
     return ply:isInChannel()
 end
 
+function cfc_voice:joinChannel(ply, channel)
+    table.insert(channel.Users, ply)
+end
+
 net.Receive("gimmeChannelsPls", function(len, ply)
     if IsValid(ply) and ply:IsPlayer() then -- TODO: Add IsValidPly when cfc_lib is released
         net.Start("okiHereYouGo")
@@ -122,5 +126,5 @@ net.Receive("iWannaJoinPls", function(len, ply)
         return 
     end
 
-    cfc_voice:joinChannel(ply, channelName, channelPassword) 
+    cfc_voice:joinChannel(ply, channel) 
 end)
