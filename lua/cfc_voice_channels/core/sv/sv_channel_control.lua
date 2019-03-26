@@ -58,7 +58,7 @@ function cfc_voice:CreateChannel(caller, name, password)
         ["Password"] = channelPassword,
         ["IsProtected"] = isPasswordProtected,
         ["TimeOut"] = nil,
-        ["Users"] = {caller}
+        ["Users"] = {caller},
         ["CorrectPassword"] = function(password) 
             return (password == self.Password) or (not self.IsProtected)
         end 
