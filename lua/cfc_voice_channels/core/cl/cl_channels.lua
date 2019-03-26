@@ -3,6 +3,8 @@ local function fetchChannels()
     net.SendToServer()
 end
 
+--local function 
+
 concommand.Add("cfc_open_voice_channels", function(ply, cmd, args)
     fetchChannels()
     vgui.Create("cfc_voice_main_derma")
@@ -20,10 +22,11 @@ concommand.Add("cfc_create_voice_channel", function(ply, cmd, args)
     end
 end)
 
-concommand.Add("cfc_voice_disconnect", function(ply, cmd, args)
-
+concommand.Add("cfc_voice_connect", function(ply, cmd, args)
+    net.Start("iWannaJoinPls")
+    net.SendToServer()
 end)
 
-concommand.Add("cfc_voice_connect", function(ply, cmd, args)
+concommand.Add("cfc_voice_disconnect", function(ply, cmd, args)
 
 end)
