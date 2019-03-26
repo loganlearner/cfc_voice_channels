@@ -59,6 +59,9 @@ function cfc_voice:CreateChannel(caller, name, password)
         ["IsProtected"] = isPasswordProtected,
         ["TimeOut"] = nil,
         ["Users"] = {caller}
+        ["CorrectPassword"] = function(password) 
+            return (password == self.Password) or (not self.IsProtected)
+        end 
     }
 
     -- TODO: Notify players of successful creation of channel
@@ -74,6 +77,20 @@ function cfc_voice:isUniqueChannelName(name)
     return true
 end
 
+function cfc_voice:getChannel(channelName)
+    for _, channel in pairs(self.Channels) do
+        if channel.Name == channelName then
+            return channel
+        end
+    end
+
+    return nil
+end
+
+function cfc_voice:canJoinChannel(ply)
+    return ply:isInChannel()
+end
+
 net.Receive("gimmeChannelsPls", function(len, ply)
     if IsValid(ply) and ply:IsPlayer() then -- TODO: Add IsValidPly when cfc_lib is released
         net.Start("okiHereYouGo")
@@ -87,4 +104,23 @@ net.Receive("iWannaMakeAChannel", function(len, ply)
     local channelPassword = net.ReadString()
 
     cfc_voice:CreateChannel(ply, channelName, channelPassword)
+end)
+
+net.Reveive("iWannaJoinPls", function(len, ply)
+    local channelName = net.ReadString()
+    local channelPassword = net.ReadString()
+    
+    if not cfc_voice:canJoinChannel(ply) then return end
+
+    local channel = cfc_voice:getChannel(channelName)
+    if channel == nil then 
+        -- invalid channel error
+        return 
+    end
+    if not channel.CorrectPassword(channelPassword) then 
+        -- wrong password error
+        return 
+    end
+
+    cfc_voice:joinChannel(ply, channelName, channelPassword) 
 end)

@@ -21,8 +21,15 @@ concommand.Add("cfc_create_voice_channel", function(ply, cmd, args)
 end)
 
 concommand.Add("cfc_voice_connect", function(ply, cmd, args)
-    net.Start("iWannaJoinPls")
-    net.SendToServer()
+    local channelName = args[1]
+    local channelPassword = args[2] or ""
+
+    if isstring(channelName) and channelName != "" then
+        net.Start("iWannaJoinPls")
+            net.WriteString(channelName)
+            net.WriteString(channelPassword)
+        net.SendToServer()
+    end
 end)
 
 concommand.Add("cfc_voice_disconnect", function(ply, cmd, args)
