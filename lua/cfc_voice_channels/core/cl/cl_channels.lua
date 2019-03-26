@@ -3,8 +3,6 @@ local function fetchChannels()
     net.SendToServer()
 end
 
---local function 
-
 concommand.Add("cfc_open_voice_channels", function(ply, cmd, args)
     fetchChannels()
     vgui.Create("cfc_voice_main_derma")
