@@ -106,7 +106,7 @@ net.Receive("iWannaMakeAChannel", function(len, ply)
     cfc_voice:CreateChannel(ply, channelName, channelPassword)
 end)
 
-net.Reveive("iWannaJoinPls", function(len, ply)
+net.Receive("iWannaJoinPls", function(len, ply)
     local channelName = net.ReadString()
     local channelPassword = net.ReadString()
     
