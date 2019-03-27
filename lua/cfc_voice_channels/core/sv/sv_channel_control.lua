@@ -55,7 +55,9 @@ function cfc_voice:CreateChannel(caller, name, password)
         return 
     end
 
-    cfc_voice.Channels[table.Count(cfc_voice.Channels) + 1] = {
+    local i = table.Count(cfc_voice.Channels) + 1
+    cfc_voice.Channels[i] = {
+        ["Index"] = i,
         ["Name"] = channelName,
         ["TrimmedName"] = string.lower(string.Trim(channelName)),
         ["Owner"] = caller,
@@ -97,10 +99,16 @@ function cfc_voice:joinChannel(ply, channel)
     table.insert(channel.Users, ply)
 end
 
+function cfc_voice:ChannelPlayerDisconnect(channel)
+    if table.Count(channel.Users) <= 0 then
+        table.remove(self.Channels, channel.Index)
+    end
+end
+
 function cfc_voice:leaveChannel(ply, channel)
     -- TODO: Alert player of successful leave
-
     table.RemoveByValue(channel.Users, ply)
+    ChannelPlayerDisconnect(channel)
 end
 
 net.Receive("gimmeChannelsPls", function(len, ply)
