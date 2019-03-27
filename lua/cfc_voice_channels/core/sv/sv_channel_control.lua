@@ -2,12 +2,12 @@
     -- Channel Structure --
 
     Channel
+        Index                 | Index of the channel
         password protected    | 
         password              |
         User list             | connected users
         owner                 | owner entity
         ownerName             | Name of the owner
-        timeout               | time it takes for a channel to time out
 ]]
 
 local function tooLong(name)
@@ -55,14 +55,15 @@ function cfc_voice:CreateChannel(caller, name, password)
         return 
     end
 
-    cfc_voice.Channels[table.Count(cfc_voice.Channels) + 1] = {
+    local i = table.Count(cfc_voice.Channels) + 1
+    cfc_voice.Channels[i] = {
+        ["Index"] = i,
         ["Name"] = channelName,
         ["TrimmedName"] = string.lower(string.Trim(channelName)),
         ["Owner"] = caller,
         ["OwnerName"] = caller:Name(),
         ["Password"] = channelPassword,
         ["IsProtected"] = isPasswordProtected,
-        ["TimeOut"] = nil,
         ["Users"] = {caller}
     }
 
@@ -95,6 +96,18 @@ function cfc_voice:joinChannel(ply, channel)
     -- TODO: Alert other members of channel that player has joined
 
     table.insert(channel.Users, ply)
+end
+
+function cfc_voice:onChannelPlayerDisconnect(channel)
+    if table.Count(channel.Users) <= 0 then
+        table.remove(self.Channels, channel.Index)
+    end
+end
+
+function cfc_voice:leaveChannel(ply, channel)
+    -- TODO: Alert player of successful leave
+    table.RemoveByValue(channel.Users, ply)
+    cfc_voice:onChannelPlayerDisconnect(channel)
 end
 
 net.Receive("gimmeChannelsPls", function(len, ply)
@@ -131,4 +144,11 @@ net.Receive("iWannaJoinPls", function(len, ply)
     end
 
     cfc_voice:joinChannel(ply, channel) 
+end)
+
+net.Receive("iLeaveNow", function(len, ply)
+    if not ply:isInChannel() then return end
+
+    local channel = ply:getConnectedChannel()
+    cfc_voice:leaveChannel(ply, channel)
 end)

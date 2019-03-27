@@ -33,5 +33,6 @@ concommand.Add("cfc_voice_connect", function(ply, cmd, args)
 end)
 
 concommand.Add("cfc_voice_disconnect", function(ply, cmd, args)
-
+    net.Start("iLeaveNow")
+    net.SendToServer()
 end)
