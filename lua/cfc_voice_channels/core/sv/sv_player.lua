@@ -21,3 +21,10 @@ function player:getPlayerChannel()
         end
     end
 end
+
+hook.Add("PlayerDisconnected", "cfc_voice_on_disconnect", function(ply)
+    if not ply:isInChannel() then return end
+
+    local channel = ply:getPlayerChannel()
+    cfc_voice:leaveChannel(ply, channel)
+end)
