@@ -98,7 +98,7 @@ function cfc_voice:joinChannel(ply, channel)
     table.insert(channel.Users, ply)
 end
 
-function cfc_voice:ChannelPlayerDisconnect(channel)
+function cfc_voice:onChannelPlayerDisconnect(channel)
     if table.Count(channel.Users) <= 0 then
         table.remove(self.Channels, channel.Index)
     end
@@ -107,7 +107,7 @@ end
 function cfc_voice:leaveChannel(ply, channel)
     -- TODO: Alert player of successful leave
     table.RemoveByValue(channel.Users, ply)
-    cfc_voice:ChannelPlayerDisconnect(channel)
+    cfc_voice:onChannelPlayerDisconnect(channel)
 end
 
 net.Receive("gimmeChannelsPls", function(len, ply)
@@ -149,6 +149,6 @@ end)
 net.Receive("iLeaveNow", function(len, ply)
     if not ply:isInChannel() then return end
 
-    local channel = ply:getPlayerChannel()
+    local channel = ply:getConnectedChannel()
     cfc_voice:leaveChannel(ply, channel)
 end)
