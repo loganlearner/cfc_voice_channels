@@ -97,6 +97,12 @@ function cfc_voice:joinChannel(ply, channel)
     table.insert(channel.Users, ply)
 end
 
+function cfc_voice:leaveChannel(ply, channel)
+    -- TODO: Alert player of successful leave
+
+    table.RemoveByValue(channel.Users, ply)
+end
+
 net.Receive("gimmeChannelsPls", function(len, ply)
     if IsValid(ply) and ply:IsPlayer() then -- TODO: Add IsValidPly when cfc_lib is released
         net.Start("okiHereYouGo")
@@ -131,4 +137,11 @@ net.Receive("iWannaJoinPls", function(len, ply)
     end
 
     cfc_voice:joinChannel(ply, channel) 
+end)
+
+net.Receive("iLeaveNow", function(len, ply)
+    if not ply:isInChannel() then return end
+
+    local channel = ply:getPlayerChannel()
+    cfc_voice:leaveChannel(ply, channel)
 end)
