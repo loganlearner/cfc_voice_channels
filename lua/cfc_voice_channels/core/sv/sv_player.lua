@@ -22,32 +22,19 @@ function player:getConnectedChannel()
     end
 end
 
-function player:isInSameChannel(ply)
-    if self:isInChannel() and ply:isInChannel() then
-        local listenerChannel = self:getConnectedChannel()
-        local talkerChannel = self:getConnectedChannel()
-
-        if listenerChannel == talkerChannel then 
-            return true
-        end
-
-        return false
-    end
-
-    return true
-end
-
 function player:isPrioritySpeaker()
 
 end
 
-hook.Add("PlayerDisconnected", "cfc_voice_on_disconnect", function(ply)
+hook.Remove("PlayerDisconnected", "CFC_Voice_onDisconnect")
+hook.Add("PlayerDisconnected", "CFC_Voice_onDisconnect", function(ply)
     if not ply:isInChannel() then return end
 
     local channel = ply:getConnectedChannel()
     cfc_voice:leaveChannel(ply, channel)
 end)
 
-hook.Add("PlayerCanHearPlayersVoice", "cfc_voice_can_hear", function(listener, talker)
-    return listener:isInSameChannel() or talker:isPrioritySpeaker()
+hook.Remove("PlayerCanHearPlayersVoice", "CFC_Voice_PlayerCanHearPlayer")
+hook.Add("PlayerCanHearPlayersVoice", "CFC_Voice_PlayerCanHearPlayer", function(listener, talker)
+    return cfc_voice:isInSameChannel(listener, talker) or talker:isPrioritySpeaker()
 end)

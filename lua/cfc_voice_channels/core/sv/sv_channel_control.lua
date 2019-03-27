@@ -33,6 +33,21 @@ local function isCorrectPassword(channel, passwordAttempt)
     return (passwordAttempt == channel.Password) or (not self.IsProtected)
 end
 
+function cfc_voice:isInSameCFCVoiceChannel(listener, talker)
+    if listener:isInChannel() and talker:isInChannel() then
+        local listenerChannel = listener:getConnectedChannel()
+        local talkerChannel = talker:getConnectedChannel()
+
+        if listenerChannel == talkerChannel then 
+            return true
+        end
+
+        return false
+    end
+
+    return true
+end
+
 function cfc_voice:CreateChannel(caller, name, password)
     if not IsValid(caller) then return end
 
