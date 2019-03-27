@@ -85,8 +85,6 @@ function cfc_voice:getChannel(channelName)
             return channel
         end
     end
-
-    return nil
 end
 
 function cfc_voice:canJoinChannel(ply)
