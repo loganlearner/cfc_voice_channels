@@ -2,12 +2,12 @@
     -- Channel Structure --
 
     Channel
+        Index                 | Index of the channel
         password protected    | 
         password              |
         User list             | connected users
         owner                 | owner entity
         ownerName             | Name of the owner
-        timeout               | time it takes for a channel to time out
 ]]
 
 local function tooLong(name)
@@ -64,7 +64,6 @@ function cfc_voice:CreateChannel(caller, name, password)
         ["OwnerName"] = caller:Name(),
         ["Password"] = channelPassword,
         ["IsProtected"] = isPasswordProtected,
-        ["TimeOut"] = nil,
         ["Users"] = {caller}
     }
 
