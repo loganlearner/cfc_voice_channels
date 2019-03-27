@@ -108,7 +108,7 @@ end
 function cfc_voice:leaveChannel(ply, channel)
     -- TODO: Alert player of successful leave
     table.RemoveByValue(channel.Users, ply)
-    ChannelPlayerDisconnect(channel)
+    cfc_voice:ChannelPlayerDisconnect(channel)
 end
 
 net.Receive("gimmeChannelsPls", function(len, ply)
