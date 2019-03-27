@@ -34,7 +34,7 @@ local function isCorrectPassword(channel, passwordAttempt)
 end
 
 function cfc_voice:isInSameCFCVoiceChannel(listener, talker)
-    if listener:isInChannel() and talker:isInChannel() then
+    if listener:isInChannel() or talker:isInChannel() then
         local listenerChannel = listener:getConnectedChannel()
         local talkerChannel = talker:getConnectedChannel()
 
@@ -104,7 +104,7 @@ function cfc_voice:getChannel(channelName)
 end
 
 function cfc_voice:canJoinChannel(ply)
-    return ply:isInChannel()
+    return not ply:isInChannel()
 end
 
 function cfc_voice:joinChannel(ply, channel)

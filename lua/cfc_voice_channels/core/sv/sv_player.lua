@@ -36,5 +36,8 @@ end)
 
 hook.Remove("PlayerCanHearPlayersVoice", "CFC_Voice_PlayerCanHearPlayer")
 hook.Add("PlayerCanHearPlayersVoice", "CFC_Voice_PlayerCanHearPlayer", function(listener, talker)
-    return cfc_voice:isInSameChannel(listener, talker) or talker:isPrioritySpeaker()
+    if not (IsValid(listener) and listener:IsPlayer()) then return end
+    if not (IsValid(talker) and talker:IsPlayer()) then return end
+
+    return cfc_voice:isInSameCFCVoiceChannel(listener, talker) --or talker:isPrioritySpeaker()
 end)
