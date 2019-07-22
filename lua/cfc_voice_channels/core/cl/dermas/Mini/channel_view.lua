@@ -28,6 +28,21 @@ function Panel:Init()
     self.List:AddColumn( "Player" ):SetWide( 200 )
     self.List:AddColumn( "Rank" ):SetWide( 50 )
 
+    self.List.OnRowSelected = function( lst, index, pnl )
+        local menu = DermaMenu()
+        menu:SetPos( gui.MouseX(), gui.MouseY())
+        menu:AddOption( "Mute", function() end ):SetIcon( "icon16/sound_delete.png" )
+
+        if isOwner( LocalPlayer() ) then
+            menu:AddOption( "Kick", function() end ):SetIcon( "icon16/user_gray.png" )
+            menu:AddOption( "Ban", function() end ):SetIcon( "icon16/user_delete.png" )
+            menu:AddOption( "Promote To Leader", function() end ):SetIcon( "icon16/award_star_gold_1.png" )
+        end
+
+        menu:AddOption( "Close" ):SetIcon( "icon16/cross.png" )
+        menu:Open()
+    end
+
     for _, ply in pairs( cfc_voice.selectedChannel.Users ) do
         self.List:AddLine( isOwner( ply ) and "L" or "", ply:Name(), team.GetName( ply:Team() ) )
     end
