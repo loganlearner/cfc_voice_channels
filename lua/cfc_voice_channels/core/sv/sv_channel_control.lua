@@ -8,6 +8,8 @@
         User list             | connected users
         owner                 | owner entity
         ownerName             | Name of the owner
+        muted                 | List of all muted players
+        banned                | List of all banned players
 ]]
 
 local function tooLong( name )
@@ -79,7 +81,9 @@ function cfc_voice:CreateChannel( caller, name, password )
         ["OwnerName"] = caller:Name(),
         ["Password"] = channelPassword,
         ["IsProtected"] = isPasswordProtected,
-        ["Users"] = {caller}
+        ["Users"] = {caller},
+        ["Muted"] = {},
+        ["Banned"] = {}
     }
 
     -- TODO: Notify players of successful creation of channel
