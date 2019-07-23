@@ -39,5 +39,11 @@ hook.Add( "PlayerCanHearPlayersVoice", "CFC_Voice_PlayerCanHearPlayer", function
     if not ( IsValid( listener ) and listener:IsPlayer() ) then return end
     if not ( IsValid( talker ) and talker:IsPlayer() ) then return end
 
-    return cfc_voice:isInSameCFCVoiceChannel( listener, talker ) -- or talker:isPrioritySpeaker()
+    if cfc_voice:isInSameCFCVoiceChannel( listener, talker ) then
+        if cfc_voice:isUserMuted( talker:getConnectedChannel(), talker ) then return false end
+
+        return true
+    end
+
+    return false
 end )

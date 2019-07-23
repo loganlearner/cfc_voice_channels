@@ -3,6 +3,8 @@ util.AddNetworkString( "okiHereYouGo" )
 util.AddNetworkString( "iWannaMakeAChannel" )
 util.AddNetworkString( "iWannaJoinPls" )
 util.AddNetworkString( "iLeaveNow" )
+util.AddNetworkString( "muteThisPlayer" )
+util.AddNetworkString( "unmuteThisPlayer" )
 
 cfc_voice.Channels = {}
 
