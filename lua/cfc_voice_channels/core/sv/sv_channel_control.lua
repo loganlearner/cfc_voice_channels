@@ -135,6 +135,12 @@ function cfc_voice:isUserMuted(channel, ply)
     return table.HasValue(channel.Muted, ply)
 end
 
+function cfc_voice:isConnectedTo(channel, ply)
+    if channel == nil then return false end
+
+    return table.HasValue(channel.Users, ply)
+end
+
 net.Receive( "gimmeChannelsPls", function( len, ply )
     if IsValid( ply ) and ply:IsPlayer() then -- TODO: Add IsValidPly when cfc_lib is released
         net.Start( "okiHereYouGo" )
@@ -197,5 +203,16 @@ net.Receive( "unmuteThisPlayer", function( len, ply )
     if cfc_voice:isUserMuted( channel, muted ) then
         ply:ChatPrint( "[CFC Voice] Successfully unmuted " .. muted:Name() )
         table.RemoveByValue( channel.Muted, muted )
+    end
+end )
+
+net.Receive( "kickThisPlayer", function( len, ply )
+    local kickee = net.ReadEntity()
+    local chnlName = net.ReadString()
+    local channel = cfc_voice:getChannel( chnlName )
+
+    if cfc_voice:isConnectedTo( channel, kickee ) then
+        ply:ChatPrint( "[CFC Voice] Successfully kicked " .. kickee:Name() )
+        table.RemoveByValue( channel.Users, kickee )
     end
 end )

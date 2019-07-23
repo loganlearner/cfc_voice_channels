@@ -5,6 +5,7 @@ util.AddNetworkString( "iWannaJoinPls" )
 util.AddNetworkString( "iLeaveNow" )
 util.AddNetworkString( "muteThisPlayer" )
 util.AddNetworkString( "unmuteThisPlayer" )
+util.AddNetworkString( "kickThisPlayer" )
 
 cfc_voice.Channels = {}
 

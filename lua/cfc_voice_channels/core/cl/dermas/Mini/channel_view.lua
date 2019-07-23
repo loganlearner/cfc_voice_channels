@@ -37,6 +37,15 @@ local function unmutePlayer(ply)
     net.SendToServer()
 end
 
+local function kickPlayer(ply)
+    table.RemoveByValue(cfc_voice.selectedChannel.Users, ply)
+
+    net.Start("kickThisPlayer")
+        net.WriteEntity(ply)
+        net.WriteString(cfc_voice.selectedChannel.Name)
+    net.SendToServer()
+end
+
 function Panel:Init()
     self.Main = self:GetParent()
 
@@ -68,7 +77,10 @@ function Panel:Init()
                 end ):SetIcon( "icon16/sound.png" )
             end
 
-            menu:AddOption( "Kick", function() end ):SetIcon( "icon16/user_gray.png" )
+            menu:AddOption( "Kick", function() 
+                kickPlayer( selectedUser )
+            end ):SetIcon( "icon16/user_gray.png" )
+
             menu:AddOption( "Ban", function() end ):SetIcon( "icon16/user_delete.png" )
             menu:AddOption( "Promote To Leader", function() end ):SetIcon( "icon16/award_star_gold_1.png" )
         end
