@@ -13,6 +13,12 @@ local function isOwner( ply )
     return cfc_voice.selectedChannel.Owner == ply
 end
 
+local function isMuted(ply)
+    if table.HasValue(cfc_voice.selectedChannel.Muted, ply) then return true end
+
+    return false
+end
+
 function Panel:Init()
     self.Main = self:GetParent()
 
@@ -28,12 +34,17 @@ function Panel:Init()
     self.List:AddColumn( "Player" ):SetWide( 200 )
     self.List:AddColumn( "Rank" ):SetWide( 50 )
 
-    self.List.OnRowSelected = function( lst, index, pnl )
+    self.List.OnRowRightClick = function( panel, index, row )
         local menu = DermaMenu()
-        menu:SetPos( gui.MouseX(), gui.MouseY())
-        menu:AddOption( "Mute", function() end ):SetIcon( "icon16/sound_delete.png" )
+        menu:SetPos( gui.MouseX(), gui.MouseY() )
 
-        if isOwner( LocalPlayer() ) then
+        if isOwner( LocalPlayer() ) or LocalPlayer():isAdmin() then
+            if not isMuted( cfc_voice.selectedChannel.Users[index] ) then
+                menu:AddOption( "Mute", function()  end ):SetIcon( "icon16/sound_delete.png" )
+            else
+                menu:AddOption( "Unmute", function() end ):SetIcon( "icon16/sound.png" )
+            end
+
             menu:AddOption( "Kick", function() end ):SetIcon( "icon16/user_gray.png" )
             menu:AddOption( "Ban", function() end ):SetIcon( "icon16/user_delete.png" )
             menu:AddOption( "Promote To Leader", function() end ):SetIcon( "icon16/award_star_gold_1.png" )
