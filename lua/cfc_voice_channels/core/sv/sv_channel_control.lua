@@ -214,5 +214,6 @@ net.Receive( "kickThisPlayer", function( len, ply )
     if cfc_voice:isConnectedTo( channel, kickee ) then
         ply:ChatPrint( "[CFC Voice] Successfully kicked " .. kickee:Name() )
         table.RemoveByValue( channel.Users, kickee )
+        cfc_voice:onChannelPlayerDisconnect( channel )
     end
 end )
