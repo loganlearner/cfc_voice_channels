@@ -129,6 +129,12 @@ function cfc_voice:leaveChannel( ply, channel )
     cfc_voice:onChannelPlayerDisconnect( channel )
 end
 
+function cfc_voice:isUserMuted(channel, ply)
+    if channel == nil then return false end
+
+    return table.HasValue(channel.Muted, ply)
+end
+
 net.Receive( "gimmeChannelsPls", function( len, ply )
     if IsValid( ply ) and ply:IsPlayer() then -- TODO: Add IsValidPly when cfc_lib is released
         net.Start( "okiHereYouGo" )
@@ -170,4 +176,26 @@ net.Receive( "iLeaveNow", function( len, ply )
 
     local channel = ply:getConnectedChannel()
     cfc_voice:leaveChannel( ply, channel )
+end)
+
+net.Receive( "muteThisPlayer", function( len, ply )
+    local mutee = net.ReadEntity()
+    local chnlName = net.ReadString()
+    local channel = cfc_voice:getChannel( chnlName )
+
+    if not cfc_voice:isUserMuted( channel, mutee ) then
+        ply:ChatPrint( "[CFC Voice] Successfully muted " .. mutee:Name() )
+        table.insert( channel.Muted, mutee )
+    end
+end )
+
+net.Receive( "unmuteThisPlayer", function( len, ply )
+    local muted = net.ReadEntity()
+    local chnlName = net.ReadString()
+    local channel = cfc_voice:getChannel( chnlName )
+
+    if cfc_voice:isUserMuted( channel, muted ) then
+        ply:ChatPrint( "[CFC Voice] Successfully unmuted " .. muted:Name() )
+        table.RemoveByValue( channel.Muted, muted )
+    end
 end )

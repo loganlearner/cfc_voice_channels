@@ -19,6 +19,24 @@ local function isMuted(ply)
     return false
 end
 
+local function mutePlayer(ply)
+    table.insert(cfc_voice.selectedChannel.Muted, ply)
+
+    net.Start("muteThisPlayer")
+        net.WriteEntity(ply)
+        net.WriteString(cfc_voice.selectedChannel.Name)
+    net.SendToServer()
+end
+
+local function unmutePlayer(ply)
+    table.RemoveByValue(cfc_voice.selectedChannel.Muted, ply)
+
+    net.Start("unmuteThisPlayer")
+        net.WriteEntity(ply)
+        net.WriteString(cfc_voice.selectedChannel.Name)
+    net.SendToServer()
+end
+
 function Panel:Init()
     self.Main = self:GetParent()
 
@@ -39,10 +57,15 @@ function Panel:Init()
         menu:SetPos( gui.MouseX(), gui.MouseY() )
 
         if isOwner( LocalPlayer() ) or LocalPlayer():isAdmin() then
-            if not isMuted( cfc_voice.selectedChannel.Users[index] ) then
-                menu:AddOption( "Mute", function()  end ):SetIcon( "icon16/sound_delete.png" )
+            local selectedUser = cfc_voice.selectedChannel.Users[index]
+            if not isMuted( selectedUser ) then
+                menu:AddOption( "Mute", function()
+                    mutePlayer( selectedUser )
+                end ):SetIcon( "icon16/sound_delete.png" )
             else
-                menu:AddOption( "Unmute", function() end ):SetIcon( "icon16/sound.png" )
+                menu:AddOption( "Unmute", function()
+                    unmutePlayer( selectedUser )
+                end ):SetIcon( "icon16/sound.png" )
             end
 
             menu:AddOption( "Kick", function() end ):SetIcon( "icon16/user_gray.png" )
