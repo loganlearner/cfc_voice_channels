@@ -4,4 +4,4 @@ function Panel:Init()
 
 end
 
-vgui.Register("password_prompt", Panel)
+vgui.Register( "password_prompt", Panel )
