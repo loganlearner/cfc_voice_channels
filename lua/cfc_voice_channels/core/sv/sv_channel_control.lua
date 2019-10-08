@@ -1,4 +1,4 @@
--- [[
+--[[
     -- Channel Structure --
 
     Channel

@@ -9,7 +9,7 @@ concommand.Add( "cfc_open_voice_channels", function( ply, cmd, args )
 end )
 
 concommand.Add( "cfc_create_voice_channel", function( ply, cmd, args )
-    if isstring( args[1] ) and args[1] != "" then
+    if isstring( args[1] ) and args[1] ~= "" then
         local channelName = args[1]
         local channelPassword = args[2] or ""
 
@@ -24,7 +24,7 @@ concommand.Add( "cfc_voice_connect", function( ply, cmd, args )
     local channelName = args[1]
     local channelPassword = args[2] or ""
 
-    if isstring( channelName ) and channelName != "" then
+    if isstring( channelName ) and channelName ~= "" then
         net.Start( "iWannaJoinPls" )
             net.WriteString( channelName )
             net.WriteString( channelPassword )
