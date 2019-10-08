@@ -26,11 +26,11 @@ local function ownsChannel( ply )
 end
 
 local function hasPassword( str )
-    return not ( str == "" )
+    return #str > 0
 end
 
 local function isCorrectPassword( channel, passwordAttempt )
-    return ( passwordAttempt == channel.Password ) or ( not self.IsProtected )
+    return ( passwordAttempt == channel.Password ) or ( not channel.IsProtected )
 end
 
 function cfc_voice:isInSameCFCVoiceChannel( listener, talker )
