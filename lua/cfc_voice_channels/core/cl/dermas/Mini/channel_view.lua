@@ -13,36 +13,36 @@ local function isOwner( ply )
     return cfc_voice.selectedChannel.Owner == ply
 end
 
-local function isMuted(ply)
-    if table.HasValue(cfc_voice.selectedChannel.Muted, ply) then return true end
+local function isMuted( ply )
+    if table.HasValue( cfc_voice.selectedChannel.Muted, ply ) then return true end
 
     return false
 end
 
-local function mutePlayer(ply)
-    table.insert(cfc_voice.selectedChannel.Muted, ply)
+local function mutePlayer( ply )
+    table.insert( cfc_voice.selectedChannel.Muted, ply )
 
-    net.Start("muteThisPlayer")
-        net.WriteEntity(ply)
-        net.WriteString(cfc_voice.selectedChannel.Name)
+    net.Start( "muteThisPlayer" )
+        net.WriteEntity( ply )
+        net.WriteString( cfc_voice.selectedChannel.Name )
     net.SendToServer()
 end
 
-local function unmutePlayer(ply)
-    table.RemoveByValue(cfc_voice.selectedChannel.Muted, ply)
+local function unmutePlayer( ply )
+    table.RemoveByValue( cfc_voice.selectedChannel.Muted, ply )
 
-    net.Start("unmuteThisPlayer")
-        net.WriteEntity(ply)
-        net.WriteString(cfc_voice.selectedChannel.Name)
+    net.Start( "unmuteThisPlayer" )
+        net.WriteEntity( ply )
+        net.WriteString( cfc_voice.selectedChannel.Name )
     net.SendToServer()
 end
 
-local function kickPlayer(ply)
-    table.RemoveByValue(cfc_voice.selectedChannel.Users, ply)
+local function kickPlayer( ply )
+    table.RemoveByValue( cfc_voice.selectedChannel.Users, ply )
 
-    net.Start("kickThisPlayer")
-        net.WriteEntity(ply)
-        net.WriteString(cfc_voice.selectedChannel.Name)
+    net.Start( "kickThisPlayer" )
+        net.WriteEntity( ply )
+        net.WriteString( cfc_voice.selectedChannel.Name )
     net.SendToServer()
 end
 
@@ -77,7 +77,7 @@ function Panel:Init()
                 end ):SetIcon( "icon16/sound.png" )
             end
 
-            menu:AddOption( "Kick", function() 
+            menu:AddOption( "Kick", function()
                 kickPlayer( selectedUser )
             end ):SetIcon( "icon16/user_gray.png" )
 

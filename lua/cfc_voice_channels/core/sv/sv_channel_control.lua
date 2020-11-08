@@ -2,14 +2,15 @@
     -- Channel Structure --
 
     Channel
-        Index                 | Index of the channel
-        password protected    |
-        password              |
-        User list             | connected users
-        owner                 | owner entity
-        ownerName             | Name of the owner
-        muted                 | List of all muted players
-        banned                | List of all banned players
+        Index
+        Name
+        Owner              | Owner Entity
+        OwnerName
+        Password
+        IsProtected
+        Users              | Connected Users
+        Muted              | List of all muted players
+        Banned             | List of all banned players
 ]]
 
 local function tooLong( name )
@@ -32,7 +33,7 @@ local function hasPassword( str )
 end
 
 local function isCorrectPassword( channel, passwordAttempt )
-    return ( passwordAttempt == channel.Password ) or ( not channel.IsProtected )
+    return passwordAttempt == channel.Password or not channel.IsProtected
 end
 
 function cfc_voice:isInSameCFCVoiceChannel( listener, talker )
@@ -76,12 +77,11 @@ function cfc_voice:CreateChannel( caller, name, password )
     cfc_voice.Channels[i] = {
         ["Index"] = i,
         ["Name"] = channelName,
-        ["TrimmedName"] = string.lower( string.Trim( channelName ) ),
         ["Owner"] = caller,
         ["OwnerName"] = caller:Name(),
         ["Password"] = channelPassword,
         ["IsProtected"] = isPasswordProtected,
-        ["Users"] = {caller},
+        ["Users"] = { caller },
         ["Muted"] = {},
         ["Banned"] = {}
     }
@@ -91,7 +91,7 @@ end
 
 function cfc_voice:isUniqueChannelName( name )
     for _, channel in pairs( cfc_voice.Channels ) do
-        if channel.TrimmedName == string.lower( string.Trim( name ) ) then
+        if string.lower( string.Trim( channel.Name ) ) == string.lower( string.Trim( name ) ) then
             return false
         end
     end
@@ -101,7 +101,7 @@ end
 
 function cfc_voice:getChannel( channelName )
     for _, channel in pairs( self.Channels ) do
-        if channel.TrimmedName == string.lower( string.Trim( channelName ) ) then
+        if string.lower( string.Trim( channel.Name ) ) == string.lower( string.Trim( channelName ) ) then
             return channel
         end
     end
@@ -112,7 +112,9 @@ function cfc_voice:canJoinChannel( ply )
 end
 
 function cfc_voice:joinChannel( ply, channel )
-    -- TODO: Alert other members of channel that player has joined
+    for _, user in pairs( channel.Users ) do
+        user:ChatPrint( "[Voice Channel] Player " .. ply .. " has joined the voice channel." )
+    end
 
     table.insert( channel.Users, ply )
 end
@@ -125,6 +127,8 @@ end
 
 function cfc_voice:leaveChannel( ply, channel )
     -- TODO: Alert player of successful leave
+    ply:ChatPrint( "[Voice Channel] You have left " .. channel.Name )
+
     table.RemoveByValue( channel.Users, ply )
     cfc_voice:onChannelPlayerDisconnect( channel )
 end
